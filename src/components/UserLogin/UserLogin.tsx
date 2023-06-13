@@ -1,21 +1,24 @@
-import { Paper, TextField, Button, Alert } from "@mui/material"
-import { ChangeEvent, useState } from "react"
+import { Paper, TextField, Button, Alert } from "@mui/material";
+import { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAtom, usersAtom } from "../../recoil/atoms";
 
-type Props = {
-  setUser: (user: string) => void;
-  users: string[];
-}
+// type Props = {
+//   setUser: (user: string) => void;
+//   users: string[];
+// }
 
-const UserLogin = ({setUser, users}: Props) => {
+const UserLogin = () => {
   const [currentInput, setCurrentInput] = useState('');
   const [error, setError] = useState(false);
-
+  const users = useRecoilValue(usersAtom);
+  const setUser = useSetRecoilState(userAtom);
+  
+  const history = useHistory();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCurrentInput(event.target.value);
   }
-
-  const history = useHistory();
 
   const handleLogin = () => {
     if(users.includes(currentInput.toLowerCase())) {
